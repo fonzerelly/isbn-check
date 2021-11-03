@@ -57,7 +57,43 @@ describe('isbn13Checksum', () => {
     })
   })
 
-  // it('should be 10 less the sum of the odd digits', () => {
-  //   expect(isbn13Checksum('100000000000'))
-  // })
+  describe('evan digits', () => {
+    [
+      { genericISBN: '010000000000', checksum: 7 },
+      { genericISBN: '000100000000', checksum: 7 },
+      { genericISBN: '000001000000', checksum: 7 },
+      { genericISBN: '000000010000', checksum: 7 },
+      { genericISBN: '000000000100', checksum: 7 },
+      { genericISBN: '000000000001', checksum: 7 },
+      { genericISBN: '020000000000', checksum: 4 },
+      { genericISBN: '000300000000', checksum: 1 },
+      { genericISBN: '000004000000', checksum: 8 },
+      { genericISBN: '000000050000', checksum: 5 },
+      { genericISBN: '000000000600', checksum: 2 },
+      { genericISBN: '000000000007', checksum: 9 },
+    ].forEach(({genericISBN, checksum}) => {
+      it(`should return subtraction of 10 minus three times the value of even digit like in ${genericISBN}`, () => {
+        expect(isbn13Checksum(genericISBN)).toBe(checksum);
+      })
+    });
+    [
+      { genericISBN: '010200000000', checksum: 1 },
+      { genericISBN: '010203000000', checksum: 2 },
+      { genericISBN: '010203040000', checksum: 0 },
+      
+    ].forEach(({genericISBN, checksum}) => {
+      it(`should return subtraction of 10 minus three times the value of all even digits like in ${genericISBN}`, () => {
+        expect(isbn13Checksum(genericISBN)).toBe(checksum);
+      })
+    });
+  });
+  [
+    { realISBN: '978381582086', checksum: 5 },
+    { realISBN: '978382731710', checksum: 0 },
+    { realISBN: '400330101839', checksum: 8 },
+  ].forEach(({realISBN, checksum}) => {
+    it(`should return checksum ${checksum} for ${realISBN}`, () => {
+      expect(isbn13Checksum(realISBN)).toBe(checksum);
+    })
+  });
 })
