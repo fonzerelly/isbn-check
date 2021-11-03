@@ -23,22 +23,37 @@ describe('isbn13Checksum', () => {
     expect(isbn13Checksum('000000000000')).toBe(0);
   });
 
-  [
-    { genericISBN: '100000000000', checksum: 9 },
-    // { genericISBN: '001000000000', checksum: 9 },
-    // { genericISBN: '000010000000', checksum: 9 },
-    // { genericISBN: '000000100000', checksum: 9 },
-    // { genericISBN: '000000001000', checksum: 9 },
-    // { genericISBN: '000000000010', checksum: 9 },
-    // { genericISBN: '200000000000', checksum: 9 },
-    // { genericISBN: '002000000000', checksum: 9 },
-    // { genericISBN: '000020000000', checksum: 9 },
-    // { genericISBN: '000000200000', checksum: 9 },
-    // { genericISBN: '000000002000', checksum: 9 },
-    // { genericISBN: '000000000020', checksum: 9 },
-  ].forEach(({genericISBN, checksum}) => {
-    it(`should return subtraction of 10 minus single value of odd digit like in ${genericISBN}`, () => {
-      expect(isbn13Checksum(genericISBN)).toBe(checksum);
+  describe('odd digits', () => {
+    [
+      { genericISBN: '100000000000', checksum: 9 },
+      { genericISBN: '001000000000', checksum: 9 },
+      { genericISBN: '000010000000', checksum: 9 },
+      { genericISBN: '000000100000', checksum: 9 },
+      { genericISBN: '000000001000', checksum: 9 },
+      { genericISBN: '000000000010', checksum: 9 },
+      { genericISBN: '200000000000', checksum: 8 },
+      { genericISBN: '003000000000', checksum: 7 },
+      { genericISBN: '000040000000', checksum: 6 },
+      { genericISBN: '000000500000', checksum: 5 },
+      { genericISBN: '000000006000', checksum: 4 },
+      { genericISBN: '000000000070', checksum: 3 },
+    ].forEach(({genericISBN, checksum}) => {
+      it(`should return subtraction of 10 minus single value of odd digit like in ${genericISBN}`, () => {
+        expect(isbn13Checksum(genericISBN)).toBe(checksum);
+      })
+    });
+    [
+      { genericISBN: '101000000000', checksum: 8 },
+      { genericISBN: '000030400000', checksum: 3 },
+      { genericISBN: '102030000000', checksum: 4 },
+      { genericISBN: '102030400000', checksum: 0 },
+    ].forEach(({genericISBN, checksum}) => {
+      it(`should return subtraction of 10 and all values of odd digit like in ${genericISBN}`, () => {
+        expect(isbn13Checksum(genericISBN)).toBe(checksum);
+      })
+    })
+    it(`should return modulo 10 of subtraction of 10 and all values of odd digit like in 1020304050`, () => {
+      expect(isbn13Checksum('102030405000')).toBe(5)
     })
   })
 
