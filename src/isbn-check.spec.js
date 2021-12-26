@@ -1,7 +1,7 @@
 const {
   isbn10Checksum,
   isbn13Checksum
-} = require('./isbncheck')
+} = require('./isbn-check')
 
 describe('isbnChecksum', () => {
   describe('isbn10Checksum', () => {
